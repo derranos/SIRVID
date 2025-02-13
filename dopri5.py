@@ -23,7 +23,7 @@ sigma = 0.05  # Утрата иммунитета
 N = 1000  # Общее население
 
 # Система ОДУ
-def system(t, y):
+def system(y):
     S, I, R, V, D = y
     dSdt = -beta * I * S / N + sigma * R - alpha * S
     dIdt = beta * I * S / N - gamma * I - delta * I
@@ -43,7 +43,7 @@ def dopri5(f, t_span, y0, tol=1e-6, h_min=1e-4, h_max=1.0):
             h = t_span[1] - t  # Корректируем шаг, чтобы не выйти за пределы интервала
 
         # Вычисляем стадии метода Рунге-Кутты
-        k = [[0] * len(y0) for _ in range(7)] # список промежуточных вычислений Рунге-Куты
+        k = [[0] * len(y0) for _ in range(7)] # явные уравнения коэф Рунге-Куты
         k[0] = f(t, y)
         for i in range(1, 7):
             y_stage = []
