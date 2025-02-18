@@ -25,38 +25,32 @@ def derivatives(S, I, R, V, D, N, beta, gamma, delta, alpha, sigma):
     return [dS, dI, dR, dV, dD]                    # Возвращаем производные в виде списка
 
 # Реализация одного шага метода Рунге-Кутты (4-го или 3/8 порядка)
-def rk4_step(y, h, N, koef1, koef2, beta, gamma, delta, alpha, sigma):
+def rk3_8_step(y, h, N, beta, gamma, delta, alpha, sigma):
     S, I, R, V, D = y  # Распаковываем текущие значения переменных
     k1 = derivatives(S, I, R, V, D, N, beta, gamma, delta, alpha, sigma)
     for i in range(5):
         k1[i] *= h  # Умножаем производные на шаг времени h
-    k2 = derivatives(S + k1[0] / 2, I + k1[1] / 2, R + k1[2] / 2, V + k1[3] / 2, D + k1[4] / 2, N, beta, gamma, delta, alpha, sigma)
+    k2 = derivatives(S + k1[0] / 3, I + k1[1] / 3, R + k1[2] / 3, V + k1[3] / 3, D + k1[4] / 3, N, beta, gamma, delta, alpha, sigma)
     for i in range(5):
         k2[i] *= h
-    k3 = derivatives(S + k2[0] / 2, I + k2[1] / 2, R + k2[2] / 2, V + k2[3] / 2, D + k2[4] / 2, N, beta, gamma, delta, alpha, sigma)
+    k3 = derivatives(S + k2[0] * 2 / 3, I + k2[1] * 2 / 3, R + k2[2] * 2 / 3, V + k2[3] * 2 / 3, D + k2[4] * 2 / 3, N, beta, gamma, delta, alpha, sigma)
     for i in range(5):
         k3[i] *= h
     k4 = derivatives(S + k3[0], I + k3[1], R + k3[2], V + k3[3], D + k3[4], N, beta, gamma, delta, alpha, sigma)
     for i in range(5):
         k4[i] *= h
     for i in range(5):  # Вычисляем новое значение по формуле Рунге-Кутты
-        y[i] += (k1[i] + koef1 * k2[i] + koef1 * k3[i] + k4[i]) / koef2
+        y[i] += (k1[i] + 3 * k2[i] + 3* k3[i] + k4[i]) / 8
     return y
 
 # Основная функция программы
 def main():
     print('Введите данные')  # Пользователь вводит параметры модели
     n, inf, h, t, beta, gamma, delta, alpha, sigma = user_input()
-    print('Введите номер метода: 0/любое другое число (rk4, rk3/8)')  # Выбор метода Рунге-Кутты
-    num = int(input())
     
     # Засекаем время выполнения
     start = time()
     
-    # Устанавливаем коэффициенты в зависимости от выбранного метода
-    koef1, koef2 = 2, 6
-    if num:
-        koef1, koef2 = 3, 8
 
     # Формируем временные точки
     t_values = []
@@ -76,7 +70,7 @@ def main():
         R_values.append(y[2])
         V_values.append(y[3])
         D_values.append(y[4])
-        y = rk4_step(y, h, n, koef1, koef2, beta, gamma, delta, alpha, sigma)
+        y = rk3_8_step(y, h, n, beta, gamma, delta, alpha, sigma)
 
     # Засекаем время окончания
     end = time()
