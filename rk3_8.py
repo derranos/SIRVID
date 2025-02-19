@@ -4,15 +4,15 @@ import matplotlib.pyplot as plt
 
 # Функция для ввода данных пользователем
 def user_input(): 
-    beta = float(input())   # Коэффициент передачи
-    gamma = float(input())   # Коэффициент выздоровления
-    delta = float(input())  # Коэффициент смертности
-    alpha = float(input())  # Скорость вакцинации
-    sigma = float(input())  # Утрата иммунитета
-    n = int(input())      # Общее население
-    inf = int(input()) # Начальное количество инфицированных
-    h = float(input()) # Шаг времени
-    t = int(input()) # Общее количество времени
+    beta = float(input("beta: "))   # Коэффициент передачи
+    gamma = float(input("gamma: "))   # Коэффициент выздоровления
+    delta = float(input("delta: "))  # Коэффициент смертности
+    alpha = float(input("alpha: "))  # Скорость вакцинации
+    sigma = float(input("sigma: "))  # Утрата иммунитета
+    n = int(input("N(people): "))      # Общее население
+    inf = int(input("INF: ")) # Начальное количество инфицированных
+    h = float(input("H: ")) # Шаг времени
+    t = int(input("t0 - t: ")) # Общее количество времени
     return [n, inf, h, t, beta, gamma, delta, alpha, sigma] # Возвращаем введённые данные массивом
 
 # Функция для расчёта производных S, I, R, V, D
@@ -44,9 +44,9 @@ def rk3_8_step(y, h, N, beta, gamma, delta, alpha, sigma):
     return y
 
 # Основная функция программы
-def main():
-    print('Введите данные')  # Пользователь вводит параметры модели
-    n, inf, h, t, beta, gamma, delta, alpha, sigma = user_input()
+def main(n, inf, h, t, beta, gamma, delta, alpha, sigma):
+    # print('Введите данные')  # Пользователь вводит параметры модели
+    # n, inf, h, t, beta, gamma, delta, alpha, sigma = user_input()
     
     # Засекаем время выполнения
     start = time()
@@ -92,5 +92,7 @@ def main():
     # Вывод времени выполнения
     print(end - start)
 
+
 # Запуск программы
-main()
+if __name__ == "__main__":
+    main()
