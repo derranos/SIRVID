@@ -91,6 +91,7 @@ def main(n, inf, h, t, beta, gamma, delta, alpha, sigma):
 
     # Вывод времени выполнения
     print(end - start)
+    return [S_values[-1], I_values[-1], R_values[-1], V_values[-1], D_values[-1]]
 
 
 # Запуск программы

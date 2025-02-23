@@ -93,7 +93,7 @@ def dopri_8(b, g, d, a, s, N1, t):
     R_values = [point[1][2] for point in solution]
     V_values = [point[1][3] for point in solution]
     D_values = [point[1][4] for point in solution]
-
+    
     # Построение графиков
     plt.figure(figsize=(12, 8))
 
@@ -111,3 +111,4 @@ def dopri_8(b, g, d, a, s, N1, t):
     plt.legend()
     plt.grid()
     plt.show()
+    return [S_values[-1], I_values[-1], R_values[-1], V_values[-1], D_values[-1]]
